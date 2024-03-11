@@ -19,6 +19,14 @@ SDL_Texture* Textures::load_texture(SDL_Renderer* renderer, const char* file_pat
 
 // Load all the textures
 bool Textures::load() {
+
+    // Background texture
+    const char* BACKGROUND_PATH = "assets/tiles/floor/spikes_spritesheet.png"; // Adjust the path accordingly
+    backgroundTexture = load_texture(renderer, BACKGROUND_PATH);
+    if (!backgroundTexture) {
+        return false;
+    }
+
 	// Player idle texture
 	player.idle.texture = load_texture(renderer, PLAYER_IDLE_PATH);
 	if (!player.idle.texture) { return false; }
@@ -91,9 +99,18 @@ bool Textures::load() {
 
 // Deload all the textures
 bool Textures::deload() {
+
+    // Background texture
+    SDL_DestroyTexture(backgroundTexture);
+
+
 	// Player texture
 	SDL_DestroyTexture(player.idle.texture);
 	delete player.idle.frame_rects;
 
 	return true;
+}
+
+void Textures::renderBackground() {
+    SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
 }

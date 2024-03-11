@@ -124,6 +124,9 @@ void Game::render() {
     // TEST FOR HITBOXES
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
+    // Render the background
+    textures->renderBackground();
+
     // Render the player object
     player->render();
 

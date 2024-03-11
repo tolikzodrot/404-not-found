@@ -30,6 +30,8 @@ public:
     bool load();
     bool deload();
 
+    void renderBackground(); // Declaration added
+
     struct Texture player;
 
 private:
@@ -47,6 +49,9 @@ private:
 
     const int PLAYER_WIDTH = 16;
     const int PLAYER_HEIGHT = 16;
+
+    SDL_Texture* backgroundTexture; // New member variable
+
 };
 
 #endif // TEXTURES_H
