@@ -42,7 +42,7 @@ bool Game::init() {
     SCREEN_WIDTH = display_mode.w;
     SCREEN_HEIGHT = display_mode.h;
     SCREEN_WIDTH = 1200;
-    SCREEN_HEIGHT = 500;
+    SCREEN_HEIGHT = 480;
 
     // Create the windows using the monitors dimensions (fullscreen) FOR RELEASE: SDL_WINDOW_FULLSCREEN
     window = SDL_CreateWindow("The Depth of Eternity", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);

@@ -18,6 +18,11 @@ void Tilemap::render() {
     SDL_Texture* render_texture;
 
     render_texture = texture.floor.texture;
-
-    SDL_RenderCopy(renderer, render_texture, NULL, &rect);
+    for(int x = 0; x < MAP_WIDTH; ++x){
+        for(int y = 0; y < MAP_WIDTH; ++y){
+            rect.x = x * WIDTH;
+            rect.y = y * HEIGHT;
+            SDL_RenderCopy(renderer, render_texture, NULL, &rect);
+        }
+    }
 }

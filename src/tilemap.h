@@ -21,11 +21,11 @@ private:
     const int SCREEN_WIDTH;
     const int SCREEN_HEIGHT;
 
-    int m_rows;
-    int m_cols;
-
     const int WIDTH = 80;
     const int HEIGHT = 80;
+
+    const int MAP_WIDTH = 15;
+    const int MAP_HEIGHT = 6;
     
     struct Texture texture;
     
