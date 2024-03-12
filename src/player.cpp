@@ -4,7 +4,7 @@
 Player::Player(SDL_Renderer* renderer, struct Texture texture, int x, int y, const float FPS, const int SW, const int SH):
 renderer(renderer), texture(texture), FPS(FPS), SCREEN_WIDTH(SW), SCREEN_HEIGHT(SH) {
     rect.x = x;
-    rect.y = y - HEIGHT;
+    rect.y = y;
     rect.w = WIDTH;
     rect.h = HEIGHT;
 }

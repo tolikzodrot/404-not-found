@@ -6,6 +6,7 @@
 
 #include "textures.h"
 #include "player.h"
+#include "tilemap.h"
 
 class Game {
 public:
@@ -28,6 +29,7 @@ private:
     bool running = true;
 
     Player* player = nullptr;
+    Tilemap* tilemap = nullptr;
 
     void input();
     void update();

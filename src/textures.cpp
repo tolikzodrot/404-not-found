@@ -21,13 +21,16 @@ SDL_Texture* Textures::load_texture(SDL_Renderer* renderer, const char* file_pat
 bool Textures::load() {
 
     // Background texture
-    const char* BACKGROUND_PATH = "assets/tiles/floor/spikes_spritesheet.png"; // Adjust the path accordingly
-    backgroundTexture = load_texture(renderer, BACKGROUND_PATH);
-    if (!backgroundTexture) {
-        return false;
-    }
-
+    //const char* BACKGROUND_PATH = "assets/tiles/floor/spikes_spritesheet.png"; // Adjust the path accordingly
+    //backgroundTexture = load_texture(renderer, BACKGROUND_PATH);
+    //if (!backgroundTexture) {
+    //    return false;
+    //}
+    
 	// Player idle texture
+    tilemap.floor.texture = load_texture(renderer, TILE_FLOOR_1);
+    if (!tilemap.floor.texture) { return false; }
+
 	player.idle.texture = load_texture(renderer, PLAYER_IDLE_PATH);
 	if (!player.idle.texture) { return false; }
 
@@ -59,38 +62,6 @@ bool Textures::load() {
     player.run.num_of_frames = PLAYER_RUN_FRAMES;
     player.run.current_frame = 1;
 
-    // Player jump up and down texture
-	// player.jump_up.texture = load_texture(renderer, PLAYER_JUMP_UP_PATH);
-	// if (!player.jump_up.texture) { return false; }
-
-	// player.jump_up.frame_rects = new SDL_Rect[PLAYER_JUMP_FRAMES];
-
-    // for (int i = 0; i < PLAYER_JUMP_FRAMES; i++) {
-    //     player.jump_up.frame_rects[i].x = i * PLAYER_WIDTH;
-    //     player.jump_up.frame_rects[i].y = 0;
-    //     player.jump_up.frame_rects[i].w = PLAYER_WIDTH;
-    //     player.jump_up.frame_rects[i].h = PLAYER_HEIGHT;
-    // }
-
-    // player.jump_down.texture = load_texture(renderer, PLAYER_JUMP_DOWN_PATH);
-	// if (!player.jump_down.texture) { return false; }
-
-	// player.jump_down.frame_rects = new SDL_Rect[PLAYER_JUMP_FRAMES];
-
-    // for (int i = 0; i < PLAYER_JUMP_FRAMES; i++) {
-    //     player.jump_down.frame_rects[i].x = i * PLAYER_WIDTH;
-    //     player.jump_down.frame_rects[i].y = 0;
-    //     player.jump_down.frame_rects[i].w = PLAYER_WIDTH;
-    //     player.jump_down.frame_rects[i].h = PLAYER_HEIGHT;
-    // }
-
-    // player.jump_up.num_of_frames = PLAYER_JUMP_FRAMES;
-    // player.jump_down.num_of_frames = PLAYER_JUMP_FRAMES;
-
-    // player.jump_up.current_frame = 1;
-    // player.jump_down.current_frame = 1;
-
-    // Set the players general texture values
     player.frame_start = SDL_GetTicks();
     player.render_speed = PLAYER_RENDER_SPEED;
 
@@ -100,17 +71,13 @@ bool Textures::load() {
 // Deload all the textures
 bool Textures::deload() {
 
-    // Background texture
-    SDL_DestroyTexture(backgroundTexture);
-
 
 	// Player texture
+    SDL_DestroyTexture(tilemap.floor.texture);
 	SDL_DestroyTexture(player.idle.texture);
 	delete player.idle.frame_rects;
 
 	return true;
 }
 
-void Textures::renderBackground() {
-    SDL_RenderCopy(renderer, backgroundTexture, NULL, NULL);
-}
+

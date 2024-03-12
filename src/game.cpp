@@ -65,10 +65,12 @@ bool Game::init() {
     }
 
     // Disable the cursor
-    SDL_ShowCursor(SDL_DISABLE);
+    //SDL_ShowCursor(SDL_DISABLE);
 
     // Initialize the player object (with starting position)
     player = new Player(renderer, textures->player, 100, SCREEN_HEIGHT - 100, FPS, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    tilemap = new Tilemap(renderer, textures->tilemap, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     return true;
 }
@@ -84,7 +86,6 @@ void Game::run() {
 
         // Handle the input
         input();
-
         // Update the game logic
         update();
         // Render
@@ -113,6 +114,8 @@ void Game::input() {
 }
 
 void Game::update() {
+    // Update tilemap
+    tilemap->update();
     // Update the player
     player->update();
 }
@@ -122,11 +125,10 @@ void Game::render() {
     SDL_RenderClear(renderer);
 
     // TEST FOR HITBOXES
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    //SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-    // Render the background
-    textures->renderBackground();
-
+    // Render the tilemap object
+    tilemap->render();
     // Render the player object
     player->render();
 
