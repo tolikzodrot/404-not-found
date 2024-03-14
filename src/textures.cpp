@@ -28,8 +28,17 @@ bool Textures::load() {
     //}
     
 	// Player idle texture
-    tilemap.floor.texture = load_texture(renderer, TILE_FLOOR_1);
-    if (!tilemap.floor.texture) { return false; }
+    tilemap.floor1.texture = load_texture(renderer, TILE_FLOOR_1);
+    if (!tilemap.floor1.texture) { return false; }
+
+    tilemap.floor2.texture = load_texture(renderer, TILE_FLOOR_2);
+    if (!tilemap.floor2.texture) { return false; }
+
+    tilemap.floor3.texture = load_texture(renderer, TILE_FLOOR_3);
+    if (!tilemap.floor3.texture) { return false; }
+
+    tilemap.floor4.texture = load_texture(renderer, TILE_FLOOR_4);
+    if (!tilemap.floor4.texture) { return false; }
 
 	player.idle.texture = load_texture(renderer, PLAYER_IDLE_PATH);
 	if (!player.idle.texture) { return false; }
@@ -73,7 +82,10 @@ bool Textures::deload() {
 
 
 	// Player texture
-    SDL_DestroyTexture(tilemap.floor.texture);
+    SDL_DestroyTexture(tilemap.floor1.texture);
+    SDL_DestroyTexture(tilemap.floor2.texture);
+    SDL_DestroyTexture(tilemap.floor3.texture);
+    SDL_DestroyTexture(tilemap.floor4.texture);
 	SDL_DestroyTexture(player.idle.texture);
 	delete player.idle.frame_rects;
 

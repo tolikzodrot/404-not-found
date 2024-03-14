@@ -21,7 +21,10 @@ struct Texture {
     struct Frames run;
     struct Frames jump_up;
     struct Frames jump_down;
-    struct Floor floor;
+    struct Floor floor1;
+    struct Floor floor2;
+    struct Floor floor3;
+    struct Floor floor4;
 
     Uint32 frame_start;
     float render_speed;
@@ -47,11 +50,14 @@ private:
     const char* PLAYER_RUN_PATH = "assets/heroes/knight/knight_run_spritesheet.png";
     
     const char* TILE_FLOOR_1 = "assets/tiles/floor/floor_1.png";
+    const char* TILE_FLOOR_2 = "assets/tiles/floor/floor_2.png";
+    const char* TILE_FLOOR_3 = "assets/tiles/floor/floor_3.png";
+    const char* TILE_FLOOR_4 = "assets/tiles/floor/floor_4.png";
 
     const int PLAYER_IDLE_FRAMES = 6;
     const int PLAYER_RUN_FRAMES = 6;
 
-    const float PLAYER_RENDER_SPEED = 1.5;
+    const float PLAYER_RENDER_SPEED = 1;
 
     const int PLAYER_WIDTH = 16;
     const int PLAYER_HEIGHT = 16;

@@ -26,6 +26,9 @@ private:
     int SCREEN_WIDTH;
     int SCREEN_HEIGHT;
 
+    int MAP_WIDTH = 15;
+    int MAP_HEIGHT = 6;
+
     bool running = true;
 
     Player* player = nullptr;

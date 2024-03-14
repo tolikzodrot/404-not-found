@@ -43,6 +43,8 @@ bool Game::init() {
     SCREEN_HEIGHT = display_mode.h;
     SCREEN_WIDTH = 1200;
     SCREEN_HEIGHT = 480;
+    MAP_WIDTH = 15;
+    MAP_HEIGHT = 6;
 
     // Create the windows using the monitors dimensions (fullscreen) FOR RELEASE: SDL_WINDOW_FULLSCREEN
     window = SDL_CreateWindow("The Depth of Eternity", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
@@ -70,7 +72,7 @@ bool Game::init() {
     // Initialize the player object (with starting position)
     player = new Player(renderer, textures->player, 100, SCREEN_HEIGHT - 100, FPS, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    tilemap = new Tilemap(renderer, textures->tilemap, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    tilemap = new Tilemap(renderer, textures->tilemap, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, MAP_WIDTH, MAP_HEIGHT);
 
     return true;
 }
