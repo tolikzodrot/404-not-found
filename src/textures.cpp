@@ -16,7 +16,6 @@ SDL_Texture* Textures::load_texture(SDL_Renderer* renderer, const char* file_pat
 
     return texture;
 }
-
 // Load all the textures
 bool Textures::load() {
 
@@ -39,8 +38,9 @@ bool Textures::load() {
 
     tilemap.floor4.texture = load_texture(renderer, TILE_FLOOR_4);
     if (!tilemap.floor4.texture) { return false; }
-
-	player.idle.texture = load_texture(renderer, PLAYER_IDLE_PATH);
+    //load  textures of all the floor
+	
+    player.idle.texture = load_texture(renderer, PLAYER_IDLE_PATH);
 	if (!player.idle.texture) { return false; }
 
 	player.idle.frame_rects = new SDL_Rect[PLAYER_IDLE_FRAMES];
@@ -51,8 +51,9 @@ bool Textures::load() {
         player.idle.frame_rects[i].w = PLAYER_WIDTH;
         player.idle.frame_rects[i].h = PLAYER_HEIGHT;
     }
+    //load the texture of idle state player
 
-    player.idle.num_of_frames = PLAYER_IDLE_FRAMES;
+    player.idle.num_of_frames = PLAYER_IDLE_FRAMES;//total number of idle state animation frames
     player.idle.current_frame = 1;
 
     // Player run texture
@@ -67,12 +68,12 @@ bool Textures::load() {
         player.run.frame_rects[i].w = PLAYER_WIDTH;
         player.run.frame_rects[i].h = PLAYER_HEIGHT;
     }
-
-    player.run.num_of_frames = PLAYER_RUN_FRAMES;
+    //load the taxture of running state player
+    player.run.num_of_frames = PLAYER_RUN_FRAMES;//total number of the running state animation frame
     player.run.current_frame = 1;
 
-    player.frame_start = SDL_GetTicks();
-    player.render_speed = PLAYER_RENDER_SPEED;
+    player.frame_start = SDL_GetTicks();//get the current system time
+    player.render_speed = PLAYER_RENDER_SPEED; 
 
 	return true;
 }
@@ -88,7 +89,7 @@ bool Textures::deload() {
     SDL_DestroyTexture(tilemap.floor4.texture);
 	SDL_DestroyTexture(player.idle.texture);
 	delete player.idle.frame_rects;
-
+    //destroy all the objects,release memory
 	return true;
 }
 
