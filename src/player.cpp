@@ -8,7 +8,7 @@ renderer(renderer), texture(texture), FPS(FPS), SCREEN_WIDTH(SW), SCREEN_HEIGHT(
     rect.w = WIDTH;
     rect.h = HEIGHT;
 }
-
+//initialize the state of the player
 Player::~Player() {
 }
 
@@ -29,6 +29,7 @@ void Player::handle_input(SDL_Event event) {
                 break;
         }
     }
+    //according to the keystokens changing the moving direction
     else if (event.type == SDL_KEYUP) {
         switch (event.key.keysym.sym) {
             case SDLK_a:
@@ -53,6 +54,7 @@ void Player::handle_input(SDL_Event event) {
                 break;
         }
     }
+    //key release,stop moving
 }
 
 void Player::update() {
@@ -65,6 +67,7 @@ void Player::update() {
         // Move the player up and down
         rect.y += direction_Y * speed / FPS;
     }
+    //update the location of the player
 
     // Ensure player stays within the screen boundaries
     if (rect.x < 0) {
@@ -77,9 +80,6 @@ void Player::update() {
     } else if (rect.y > SCREEN_HEIGHT - HEIGHT) {
         rect.y = SCREEN_HEIGHT - HEIGHT;
     }
-
-
-    
 
     // Set the player states
     if (direction_X) {
@@ -94,7 +94,7 @@ void Player::update() {
 
     // Set the looking direction
     if (direction_X) {
-        looking_direction = direction_X;
+        looking_direction = direction_X;//set the face direction,right or left
     }
 
     // If enough time has passed between frames
