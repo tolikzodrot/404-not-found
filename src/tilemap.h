@@ -1,7 +1,7 @@
 #ifndef TILEMAP_H
 #define TILEMAP_H
 
-#include <vector>
+#include <vector>//vector containers are introduced to store data
 #include <random>
 
 #include <SDL2/SDL.h>
@@ -13,7 +13,7 @@ class Tilemap {
 public:
     Tilemap(SDL_Renderer* renderer, struct Texture texture, const int x, const int y, const int SW, const int SH, int MW, int MH);
     ~Tilemap();
-
+    //build a function to initialize tilemap
     void update();
     void render();
 
@@ -23,7 +23,7 @@ private:
 
     // Create an empty 2D vector
     std::vector<std::vector<int>> matrix;
-
+    //a two-dimensional vector used to store tile data for the map
     const int SCREEN_WIDTH;
     const int SCREEN_HEIGHT;
 
@@ -34,7 +34,8 @@ private:
     int MAP_HEIGHT;
     
     struct Texture texture;
+    //information about the tile
     
 };
 
-#endif // PLAYER_H
+#endif // TILEMAP_H

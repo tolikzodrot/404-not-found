@@ -29,7 +29,7 @@ renderer(renderer), texture(texture), SCREEN_WIDTH(SW), SCREEN_HEIGHT(SH), MAP_W
     rect.y = y;
     rect.w = WIDTH;
     rect.h = HEIGHT;
-
+    //to locate and draw tiles in the screen
 }
 
 Tilemap::~Tilemap() {
@@ -59,7 +59,7 @@ void Tilemap::render() {
                     render_texture = texture.floor4.texture;
                     break;
             }
-
+            //select the corresponding texture
             SDL_RenderCopy(renderer, render_texture, NULL, &rect);
         }
     }
