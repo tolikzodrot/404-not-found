@@ -1,7 +1,11 @@
 #include "tilemap.h"
 
-Tilemap::Tilemap(SDL_Renderer* renderer, struct Texture texture, int x, int y, const int SW, const int SH, int MW, int MH):
-renderer(renderer), texture(texture), SCREEN_WIDTH(SW), SCREEN_HEIGHT(SH), MAP_WIDTH(MW), MAP_HEIGHT(MH) {
+Tilemap::Tilemap(SDL_Renderer* renderer, struct Texture texture, int x, int y, 
+//const int SW, const int SH, 
+int MW, int MH):
+renderer(renderer), texture(texture), 
+//SCREEN_WIDTH(SW), SCREEN_HEIGHT(SH), 
+MAP_WIDTH(MW), MAP_HEIGHT(MH) {
     
 
     // Seed the random number generator
@@ -12,10 +16,12 @@ renderer(renderer), texture(texture), SCREEN_WIDTH(SW), SCREEN_HEIGHT(SH), MAP_W
     std::uniform_int_distribution<> distrib(1, 4);
 
     matrix.resize(MAP_HEIGHT); // Set the number of rows
+    collision_matrix.resize(MAP_HEIGHT);
 
     // Set the size of each row
     for (int i = 0; i < MAP_HEIGHT; ++i) {
         matrix[i].resize(MAP_WIDTH); // Set the number of columns for each row
+        collision_matrix[i].resize(MAP_WIDTH);
     }
 
     for (int i = 0; i < MAP_HEIGHT; ++i) {
@@ -33,6 +39,25 @@ renderer(renderer), texture(texture), SCREEN_WIDTH(SW), SCREEN_HEIGHT(SH), MAP_W
 }
 
 Tilemap::~Tilemap() {
+}
+
+void Tilemap::setcollisionmatrix(){
+    for(int i = 0; i < MAP_HEIGHT; ++i){
+        for(int j = 0; j < MAP_WIDTH; ++j){
+            collision_matrix[i][j] = 0;
+        }
+    }
+    for(int i = 0; i < MAP_WIDTH; ++i){
+        collision_matrix[0][i] = 1;
+    }
+    for(int i = 0; i < MAP_HEIGHT; ++i){
+        for(int j = 0; j < MAP_WIDTH; ++j){
+            printf("%d ", collision_matrix[i][j]);
+        }
+        printf("\n");
+    }
+    
+    
 }
 
 void Tilemap::update() {

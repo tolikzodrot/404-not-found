@@ -7,6 +7,7 @@
 #include "textures.h"
 #include "player.h"
 #include "tilemap.h"
+#include "movement.h"
 
 class Game {
 public:

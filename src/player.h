@@ -4,13 +4,13 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include "movement.h"
+#include "tilemap.h"
 #include "textures.h"
 
 enum Player_State {
     IDLE,
     RUN,
-    JUMP_UP,
-    JUMP_DOWN,
 };
 //different states of the player
 class Player {
@@ -19,9 +19,12 @@ public:
     //build function to initialize the player
     ~Player();
     //to clean up player objects
+    
     void handle_input(SDL_Event event);//handle game input events,like keystokens mouse movements
     void update();//update the player's state
     void render();//render the player onto the screen
+    
+    Movement movement;
 
 private:
     SDL_Renderer* renderer;

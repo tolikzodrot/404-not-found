@@ -69,11 +69,15 @@ bool Game::init() {
     // Disable the cursor
     //SDL_ShowCursor(SDL_DISABLE);
 
+    tilemap = new Tilemap(renderer, textures->tilemap, 0, 0, 
+    //SCREEN_WIDTH, SCREEN_HEIGHT, 
+    MAP_WIDTH, MAP_HEIGHT);
+    tilemap->setcollisionmatrix();
+
     // Initialize the player object (with starting position)
     player = new Player(renderer, textures->player, 100, SCREEN_HEIGHT - 100, FPS, SCREEN_WIDTH, SCREEN_HEIGHT);
-
-    tilemap = new Tilemap(renderer, textures->tilemap, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, MAP_WIDTH, MAP_HEIGHT);
-
+    player->movement.set_Collision_Matrix(tilemap->collision_matrix);
+    
     return true;
 }
 
@@ -111,6 +115,8 @@ void Game::input() {
         }
 
         // Handle the input for the player
+
+
         player->handle_input(event);
     }
 }
@@ -118,6 +124,7 @@ void Game::input() {
 void Game::update() {
     // Update tilemap
     tilemap->update();
+
     // Update the player
     player->update();
 }

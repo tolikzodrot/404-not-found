@@ -1,8 +1,8 @@
 #include "player.h"
 
 
-Player::Player(SDL_Renderer* renderer, struct Texture texture, int x, int y, const float FPS, const int SW, const int SH):
-renderer(renderer), texture(texture), FPS(FPS), SCREEN_WIDTH(SW), SCREEN_HEIGHT(SH) {
+Player::Player(SDL_Renderer* renderer, struct Texture texture, const int x, const int y, const float FPS, const int SW, const int SH)
+: movement(x,y,0,SW,SH), renderer(renderer), FPS(FPS), SCREEN_WIDTH(SW), SCREEN_HEIGHT(SH),texture(texture) {
     rect.x = x;
     rect.y = y;
     rect.w = WIDTH;
@@ -58,28 +58,10 @@ void Player::handle_input(SDL_Event event) {
 }
 
 void Player::update() {
-    // If there is a X moving direction
-    if (direction_X) {
-        // Move the player left and right
-        rect.x += direction_X * speed / FPS;
-    }
-    if (direction_Y) {
-        // Move the player up and down
-        rect.y += direction_Y * speed / FPS;
-    }
-    //update the location of the player
-
-    // Ensure player stays within the screen boundaries
-    if (rect.x < 0) {
-        rect.x = 0;
-    } else if (rect.x > SCREEN_WIDTH - WIDTH) {
-        rect.x = SCREEN_WIDTH - WIDTH;
-    }
-    if (rect.y < 0) {
-        rect.y = 0;
-    } else if (rect.y > SCREEN_HEIGHT - HEIGHT) {
-        rect.y = SCREEN_HEIGHT - HEIGHT;
-    }
+    
+    movement.setSpeed(speed / FPS);
+    movement.setDirection(direction_X, direction_Y);
+    movement.move(&rect);
 
     // Set the player states
     if (direction_X) {
@@ -122,8 +104,9 @@ void Player::render() {
     if (state == IDLE) {
         render_texture = texture.idle.texture;
         render_rect = &texture.idle.frame_rects[texture.idle.current_frame];
-    }
-    else if (state == RUN) {
+    }else
+    // if (state == RUN) 
+    {
         render_texture = texture.run.texture;
         render_rect = &texture.run.frame_rects[texture.run.current_frame];
     }

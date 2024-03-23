@@ -13,7 +13,9 @@ SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_FILES = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRC_FILES))
 EXECUTABLE = $(BIN_DIR)/main
 
-all: $(EXECUTABLE)
+all: build
+
+build: $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJ_FILES)
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS) $(LDLIBS)
@@ -21,10 +23,10 @@ $(EXECUTABLE): $(OBJ_FILES)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
-run: $(EXECUTABLE)
+run: 
 	./$(EXECUTABLE)
 
 clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR)
 
-.PHONY: all run clean
+.PHONY: all build run clean
