@@ -47,9 +47,19 @@ void Tilemap::setcollisionmatrix(){
             collision_matrix[i][j] = 0;
         }
     }
+    for(int i = 0; i < MAP_HEIGHT; ++i){
+        collision_matrix[i][0] = 1;
+    }
     for(int i = 0; i < MAP_WIDTH; ++i){
         collision_matrix[0][i] = 1;
     }
+    for(int i = 0; i < MAP_HEIGHT; ++i){
+        collision_matrix[i][MAP_WIDTH-1] = 1;
+    }
+    for(int i = 0; i < MAP_WIDTH; ++i){
+        collision_matrix[MAP_HEIGHT-1][i] = 1;
+    }
+    collision_matrix[MAP_HEIGHT-4][MAP_WIDTH-4] = 1;
     for(int i = 0; i < MAP_HEIGHT; ++i){
         for(int j = 0; j < MAP_WIDTH; ++j){
             printf("%d ", collision_matrix[i][j]);

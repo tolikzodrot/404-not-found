@@ -75,7 +75,7 @@ bool Game::init() {
     tilemap->setcollisionmatrix();
 
     // Initialize the player object (with starting position)
-    player = new Player(renderer, textures->player, 100, SCREEN_HEIGHT - 100, FPS, SCREEN_WIDTH, SCREEN_HEIGHT);
+    player = new Player(renderer, textures->player, 100, 100, FPS, SCREEN_WIDTH, SCREEN_HEIGHT);
     player->movement.set_Collision_Matrix(tilemap->collision_matrix);
     
     return true;

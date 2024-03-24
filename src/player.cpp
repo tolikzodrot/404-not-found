@@ -113,9 +113,14 @@ void Player::render() {
 
     // Render the current frame
     SDL_RenderCopyEx(renderer, render_texture, render_rect, &rect, 0, nullptr, flip);
-
+    collision_visual();
     // TEST FOR HITBOXES
     //SDL_RenderDrawRect(renderer, &rect);
     
     //SDL_RenderCopy(renderer, texture.texture, &texture.idle.frame_rects[texture.current_frame], &rect);
+}
+void Player::collision_visual(){
+    //SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    //SDL_RenderDrawRect(renderer, movement.getRect());
+    //SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 }

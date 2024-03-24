@@ -46,6 +46,7 @@ private:
     int looking_direction = 1;
     //set the face direction,left or right
     //information of the player
+    void collision_visual();
 };
 
 #endif // PLAYER_H

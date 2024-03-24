@@ -35,6 +35,8 @@ void Movement::move(SDL_Rect* actor) {
         moveY = moveY * 0.7072;
     }
 
+    //printf("moveX: %d, moveY: %d\n", moveX, moveY);
+
     while (moveX != 0 || moveY != 0) {
         int nextX = x + (moveX > 0 ? 1 : (moveX < 0 ? -1 : 0));
         int nextY = y + (moveY > 0 ? 1 : (moveY < 0 ? -1 : 0));
@@ -42,15 +44,11 @@ void Movement::move(SDL_Rect* actor) {
         // Check if next position is within screen boundaries
         if (!yisWithinScreenBounds(nextY)){
             nextY = y;
-            printf("y is out of bounds\n");
         }
-        
         if (!xisWithinScreenBounds(nextX)){
             nextX = x;
-            printf("x is out of bounds\n");
         }
-
-        // Create SDL_Rects for the objects
+        
         SDL_Rect playerRect = {x, y, WIDTH, HEIGHT};
 
         // Check collision with collision matrix
@@ -59,44 +57,38 @@ void Movement::move(SDL_Rect* actor) {
         for (int i = 0; i < static_cast<int>(collisionMatrix.size()); ++i) {
             for (int j = 0; j < static_cast<int>(collisionMatrix[i].size()); ++j) {
                 if (collisionMatrix[i][j] == 1) {
-                    SDL_Rect tileRect = {j, i, WIDTH, HEIGHT};
+                    SDL_Rect tileRect = {j*WIDTH, i*HEIGHT, WIDTH, HEIGHT};
+                    playerRect.y = y;
                     playerRect.x = nextX;
-                    if (SDL_HasIntersection(&playerRect, &tileRect))
+                    
+                    if (SDL_HasIntersection(&playerRect, &tileRect)){
                         collisionX = true;
+                        //rect = tileRect;
+                    }
+
                     playerRect.y = nextY;
-                    playerRect.x = y;
-                    if (SDL_HasIntersection(&playerRect, &tileRect))
+                    playerRect.x = x;
+
+                    if (SDL_HasIntersection(&playerRect, &tileRect)){
                         collisionY = true;
-                    if (!(collisionX || collisionY)){
-                        break;
+                        //rect = tileRect;
                     }
                 }
             }
         }
         if(!(collisionX))
             x = nextX;
+        
         if(!(collisionY))
             y = nextY;
-        
-        if (collisionX){
-            printf("collision in x\n");
-        }else{
-            printf("no collision in x\n");
-        }
-        if (collisionY){
-            printf("collision in y\n");
-        }else{
-            printf("no collision in y\n");
-        }
-        
-        actor->x = x;
-        actor->y = y;
 
         if (moveX > 0) moveX--;
         else if (moveX < 0) moveX++;
         if (moveY > 0) moveY--;
         else if (moveY < 0) moveY++;
     }
+    actor->x = x;
+    actor->y = y;
 }
 
 bool Movement::yisWithinScreenBounds(int nextY) const {
@@ -105,4 +97,8 @@ bool Movement::yisWithinScreenBounds(int nextY) const {
 
 bool Movement::xisWithinScreenBounds(int nextX) const {
     return nextX >= 0 && nextX < screenWidth-WIDTH;
+}
+
+SDL_Rect* Movement::getRect() {
+    return &rect;
 }

@@ -12,6 +12,7 @@ public:
     void set_Collision_Matrix(const std::vector<std::vector<int>>& collisionMatrix);
     void setDirection(int newX, int newY);
     void move(SDL_Rect* actor);
+    SDL_Rect* getRect();
 
 private:
     int x;
@@ -22,6 +23,7 @@ private:
     int screenWidth; // Width of the screen
     int screenHeight; // Height of the screen
     std::vector<std::vector<int>> collisionMatrix;
+    SDL_Rect rect;
 
     const int WIDTH = 80;
     const int HEIGHT = 80;
