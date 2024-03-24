@@ -1,19 +1,24 @@
 #include "movement.h"
 
 Movement::Movement(int initialX, int initialY, int initialSpeed, int screenWidth, int screenHeight)
-    : x(initialX), y(initialY), speed(initialSpeed), dx(0), dy(0), screenWidth(screenWidth), screenHeight(screenHeight) {}
+    : x(initialX), y(initialY), speed(initialSpeed), dx(0), dy(0), screenWidth(screenWidth), screenHeight(screenHeight) {
+    // Constructor for the Movement class. Initializes the member variables.
+}
 
 void Movement::setSpeed(int newSpeed) {
     speed = newSpeed;
+    // Sets the speed of the movement.
 }
 
 void Movement::set_Collision_Matrix(const std::vector<std::vector<int>>& collisionMatrix) {
     this->collisionMatrix = collisionMatrix;
+    // Sets the collision matrix used for collision detection.
 }
 
 void Movement::setDirection(int newX, int newY) {
     dx = newX;
     dy = newY;
+    // Sets the direction of movement.
 }
 
 void Movement::move(SDL_Rect* actor) {
@@ -89,14 +94,17 @@ void Movement::move(SDL_Rect* actor) {
     }
     actor->x = x;
     actor->y = y;
+    // Moves the actor based on the current direction and speed, taking into account collision detection.
 }
 
 bool Movement::yisWithinScreenBounds(int nextY) const {
     return nextY >= 0 && nextY < screenHeight-HEIGHT;
+    // Checks if the next Y position is within the screen boundaries.
 }
 
 bool Movement::xisWithinScreenBounds(int nextX) const {
     return nextX >= 0 && nextX < screenWidth-WIDTH;
+    // Checks if the next X position is within the screen boundaries.
 }
 
 SDL_Rect* Movement::getRect() {

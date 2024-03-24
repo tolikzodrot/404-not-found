@@ -1,29 +1,23 @@
 #include "tilemap.h"
+// This is the implementation file for the Tilemap class.
+// It defines the member functions of the class.
 
-Tilemap::Tilemap(SDL_Renderer* renderer, struct Texture texture, int x, int y, 
-//const int SW, const int SH, 
-int MW, int MH):
-renderer(renderer), texture(texture), 
-//SCREEN_WIDTH(SW), SCREEN_HEIGHT(SH), 
-MAP_WIDTH(MW), MAP_HEIGHT(MH) {
+#include "tilemap.h"
+
+// Constructor for the Tilemap class
+// Initializes the renderer, texture, position, and size of the tilemap
+Tilemap::Tilemap(SDL_Renderer* renderer, struct Texture texture, int x, int y, int MW, int MH):
+    renderer(renderer), texture(texture), MAP_WIDTH(MW), MAP_HEIGHT(MH) {
     
-
-    // Seed the random number generator
-    //std::random_device rd;
-    //std::mt19937 gen(rd());
-    
-    // Define the distribution for integers between 1 and 4
-    //std::uniform_int_distribution<> distrib(1, 4);
-
-    matrix.resize(MAP_HEIGHT); // Set the number of rows
+    // Resize the matrix and collision_matrix vectors based on the map dimensions
+    matrix.resize(MAP_HEIGHT);
     collision_matrix.resize(MAP_HEIGHT);
-
-    // Set the size of each row
     for (int i = 0; i < MAP_HEIGHT; ++i) {
-        matrix[i].resize(MAP_WIDTH); // Set the number of columns for each row
+        matrix[i].resize(MAP_WIDTH);
         collision_matrix[i].resize(MAP_WIDTH);
     }
 
+    // Set the values of the matrix
     std::vector<std::vector<int>> new_values = {
         {6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8},
         {4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7},
@@ -36,23 +30,27 @@ MAP_WIDTH(MW), MAP_HEIGHT(MH) {
         {3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9}};
     matrix = new_values;
 
-
+    // Set the position and size of the tilemap rectangle
     rect.x = x;
     rect.y = y;
     rect.w = WIDTH;
     rect.h = HEIGHT;
-    //to locate and draw tiles in the screen
 }
 
+// Destructor for the Tilemap class
 Tilemap::~Tilemap() {
 }
 
+// Sets the collision matrix for the tilemap
 void Tilemap::setcollisionmatrix(){
+    // Set all elements of the collision matrix to 0
     for(int i = 0; i < MAP_HEIGHT; ++i){
         for(int j = 0; j < MAP_WIDTH; ++j){
             collision_matrix[i][j] = 0;
         }
     }
+
+    // Set the boundary elements of the collision matrix to 1
     for(int i = 0; i < MAP_HEIGHT; ++i){
         collision_matrix[i][0] = 1;
     }
@@ -65,24 +63,22 @@ void Tilemap::setcollisionmatrix(){
     for(int i = 0; i < MAP_WIDTH; ++i){
         collision_matrix[MAP_HEIGHT-1][i] = 1;
     }
+
+    // Set a specific element of the collision matrix to 1
     collision_matrix[MAP_HEIGHT-4][MAP_WIDTH-4] = 1;
-    for(int i = 0; i < MAP_HEIGHT; ++i){
-        for(int j = 0; j < MAP_WIDTH; ++j){
-            printf("%d ", collision_matrix[i][j]);
-        }
-        printf("\n");
-    }
-    
-    
 }
 
+// Updates the tilemap
 void Tilemap::update() {
+    // TODO: Implement the update logic for the tilemap
 }
 
+// Renders the tilemap
 void Tilemap::render() {
     SDL_Texture* render_texture;
     SDL_Rect* render_rect;
 
+    // Render each tile in the tilemap
     for(int x = 0; x < MAP_WIDTH; ++x){
         for(int y = 0; y < MAP_HEIGHT; ++y){
             rect.x = x * WIDTH;
@@ -125,7 +121,6 @@ void Tilemap::render() {
                     render_rect = &texture.floor1.floor_rects[4][5];
                     break;
             }
-            //select the corresponding texture
             SDL_RenderCopy(renderer, render_texture, render_rect, &rect);
         }
     }

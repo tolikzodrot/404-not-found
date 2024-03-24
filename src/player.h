@@ -11,6 +11,7 @@
 enum Player_State {
     IDLE,
     RUN,
+    ATTACK
 };
 //different states of the player
 class Player {
@@ -31,6 +32,7 @@ private:
     SDL_Rect rect;//to describe the location and size of the player
 
     Player_State state = IDLE;
+    Player_State attack = IDLE;
 
     const float FPS;//frequency of the game
     const int SCREEN_WIDTH;

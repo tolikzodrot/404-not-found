@@ -20,7 +20,10 @@ SDL_Texture* Textures::load_texture(SDL_Renderer* renderer, const char* file_pat
 
     return texture;
 }
-// Load all the textures
+
+
+// Load all the textures and initialize the player animations 
+// Returns true if all textures are loaded successfully, false otherwise
 bool Textures::load() {
     
 	// Player idle texture
@@ -35,12 +38,21 @@ bool Textures::load() {
             tilemap.floor1.floor_rects[i][j].h = FLOOR_HEIGHT;
         }
     }
+    player.attack.texture = load_texture(renderer, PLAYER_ATTACK_PATH);
+    if (!player.attack.texture) { return false; }
+    player.attack.frame_rects = new SDL_Rect[PLAYER_ATTACK_FRAMES];
+    for (int i = 0; i < PLAYER_ATTACK_FRAMES; i++) {
+        player.attack.frame_rects[i].x = i * PLAYER_WIDTH;
+        player.attack.frame_rects[i].y = 0;
+        player.attack.frame_rects[i].w = PLAYER_WIDTH;
+        player.attack.frame_rects[i].h = PLAYER_HEIGHT;
+    }
+    player.attack.num_of_frames = PLAYER_ATTACK_FRAMES;
+    player.attack.current_frame = 1;
 
     player.idle.texture = load_texture(renderer, PLAYER_IDLE_PATH);
 	if (!player.idle.texture) { return false; }
-
 	player.idle.frame_rects = new SDL_Rect[PLAYER_IDLE_FRAMES];
-
     for (int i = 0; i < PLAYER_IDLE_FRAMES; i++) {
         player.idle.frame_rects[i].x = i * PLAYER_WIDTH;
         player.idle.frame_rects[i].y = 0;
@@ -48,16 +60,13 @@ bool Textures::load() {
         player.idle.frame_rects[i].h = PLAYER_HEIGHT;
     }
     //load the texture of idle state player
-
     player.idle.num_of_frames = PLAYER_IDLE_FRAMES;//total number of idle state animation frames
     player.idle.current_frame = 1;
 
     // Player run texture
 	player.run.texture = load_texture(renderer, PLAYER_RUN_PATH);
 	if (!player.run.texture) { return false; }
-
 	player.run.frame_rects = new SDL_Rect[PLAYER_RUN_FRAMES];
-
     for (int i = 0; i < PLAYER_RUN_FRAMES; i++) {
         player.run.frame_rects[i].x = i * PLAYER_WIDTH;
         player.run.frame_rects[i].y = 0;
@@ -77,10 +86,12 @@ bool Textures::load() {
 // Deload all the textures
 bool Textures::deload() {
 
-
-	// Player texture
+    //destroy the texture of the player
     SDL_DestroyTexture(tilemap.floor1.texture);
 	SDL_DestroyTexture(player.idle.texture);
+    SDL_DestroyTexture(player.run.texture);
+    SDL_DestroyTexture(player.attack.texture);
+    
 	delete player.idle.frame_rects;
     //destroy all the objects,release memory
 	return true;

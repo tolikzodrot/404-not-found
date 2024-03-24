@@ -22,8 +22,7 @@ struct Floor {
 struct Texture {
     struct Frames idle;
     struct Frames run;
-    struct Frames jump_up;
-    struct Frames jump_down;
+    struct Frames attack;
     //different animation states
     struct Floor floor1;
     //different floor texture
@@ -50,6 +49,7 @@ private:
 
     const char* PLAYER_IDLE_PATH = "assets/Character/hero/player_idle_spritesheet.png";
     const char* PLAYER_RUN_PATH = "assets/Character/hero/player_run_spritesheet.png";
+    const char* PLAYER_ATTACK_PATH = "assets/Character/hero/player_attack_spritesheet.png";
     //refer to the spritesheet
     
     const char* TILE_FLOOR_1 = "assets/tiles/Tileset/Dungeon_Tileset.png";
@@ -57,6 +57,7 @@ private:
 
     const int PLAYER_IDLE_FRAMES = 1;
     const int PLAYER_RUN_FRAMES = 6;
+    const int PLAYER_ATTACK_FRAMES = 5;
 
     const float PLAYER_RENDER_SPEED = 1;
 
