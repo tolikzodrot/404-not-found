@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <vector>
 
 struct Frames {
     SDL_Texture* texture;
@@ -15,6 +16,7 @@ struct Frames {
 
 struct Floor {
     SDL_Texture* texture;   //texture of the floor
+    std::vector<std::vector<SDL_Rect>> floor_rects;
 };
 
 struct Texture {
@@ -24,9 +26,6 @@ struct Texture {
     struct Frames jump_down;
     //different animation states
     struct Floor floor1;
-    struct Floor floor2;
-    struct Floor floor3;
-    struct Floor floor4;
     //different floor texture
     Uint32 frame_start;
     //the time when the animation started
@@ -49,23 +48,27 @@ private:
 
     SDL_Texture* load_texture(SDL_Renderer* renderer, const char* file_path);
 
-    const char* PLAYER_IDLE_PATH = "assets/heroes/knight/knight_idle_spritesheet.png";
-    const char* PLAYER_RUN_PATH = "assets/heroes/knight/knight_run_spritesheet.png";
+    const char* PLAYER_IDLE_PATH = "assets/Character/hero/player_idle_spritesheet.png";
+    const char* PLAYER_RUN_PATH = "assets/Character/hero/player_run_spritesheet.png";
     //refer to the spritesheet
     
-    const char* TILE_FLOOR_1 = "assets/tiles/floor/floor_1.png";
-    const char* TILE_FLOOR_2 = "assets/tiles/floor/floor_2.png";
-    const char* TILE_FLOOR_3 = "assets/tiles/floor/floor_3.png";
-    const char* TILE_FLOOR_4 = "assets/tiles/floor/floor_4.png";
+    const char* TILE_FLOOR_1 = "assets/tiles/Tileset/Dungeon_Tileset.png";
     //refer to the floor
 
-    const int PLAYER_IDLE_FRAMES = 6;
+    const int PLAYER_IDLE_FRAMES = 1;
     const int PLAYER_RUN_FRAMES = 6;
 
     const float PLAYER_RENDER_SPEED = 1;
 
     const int PLAYER_WIDTH = 16;
     const int PLAYER_HEIGHT = 16;
+
+    const int FLOOR_WIDTH = 16;
+    const int FLOOR_HEIGHT = 16;
+
+    const int FLOOR_I = 10;
+    const int FLOOR_J = 10;
+
     //information of the players
 };
 

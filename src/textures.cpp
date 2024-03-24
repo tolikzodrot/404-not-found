@@ -13,33 +13,29 @@ SDL_Texture* Textures::load_texture(SDL_Renderer* renderer, const char* file_pat
         printf("Unable to load texture from %s! SDL Error: %s\n", file_path, SDL_GetError());
         return nullptr;
     }
+    tilemap.floor1.floor_rects.resize(FLOOR_I);
+    for (int i = 0; i < FLOOR_I; i++) {
+        tilemap.floor1.floor_rects[i].resize(FLOOR_J);
+    }
 
     return texture;
 }
 // Load all the textures
 bool Textures::load() {
-
-    // Background texture
-    //const char* BACKGROUND_PATH = "assets/tiles/floor/spikes_spritesheet.png"; // Adjust the path accordingly
-    //backgroundTexture = load_texture(renderer, BACKGROUND_PATH);
-    //if (!backgroundTexture) {
-    //    return false;
-    //}
     
 	// Player idle texture
     tilemap.floor1.texture = load_texture(renderer, TILE_FLOOR_1);
     if (!tilemap.floor1.texture) { return false; }
-
-    tilemap.floor2.texture = load_texture(renderer, TILE_FLOOR_2);
-    if (!tilemap.floor2.texture) { return false; }
-
-    tilemap.floor3.texture = load_texture(renderer, TILE_FLOOR_3);
-    if (!tilemap.floor3.texture) { return false; }
-
-    tilemap.floor4.texture = load_texture(renderer, TILE_FLOOR_4);
-    if (!tilemap.floor4.texture) { return false; }
-    //load  textures of all the floor
 	
+    for(int i = 0; i < FLOOR_I; i++){
+        for(int j = 0; j < FLOOR_J; j++){
+            tilemap.floor1.floor_rects[i][j].x = j * FLOOR_WIDTH;
+            tilemap.floor1.floor_rects[i][j].y = i * FLOOR_HEIGHT;
+            tilemap.floor1.floor_rects[i][j].w = FLOOR_WIDTH;
+            tilemap.floor1.floor_rects[i][j].h = FLOOR_HEIGHT;
+        }
+    }
+
     player.idle.texture = load_texture(renderer, PLAYER_IDLE_PATH);
 	if (!player.idle.texture) { return false; }
 
@@ -84,9 +80,6 @@ bool Textures::deload() {
 
 	// Player texture
     SDL_DestroyTexture(tilemap.floor1.texture);
-    SDL_DestroyTexture(tilemap.floor2.texture);
-    SDL_DestroyTexture(tilemap.floor3.texture);
-    SDL_DestroyTexture(tilemap.floor4.texture);
 	SDL_DestroyTexture(player.idle.texture);
 	delete player.idle.frame_rects;
     //destroy all the objects,release memory

@@ -27,8 +27,8 @@ private:
     int SCREEN_WIDTH;
     int SCREEN_HEIGHT;//the width and height of the screen
 
-    int MAP_WIDTH = 15;
-    int MAP_HEIGHT = 6;//the width and height of the map
+    int MAP_WIDTH;
+    int MAP_HEIGHT;//the width and height of the map
 
     bool running = true;
 

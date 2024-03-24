@@ -9,11 +9,11 @@ MAP_WIDTH(MW), MAP_HEIGHT(MH) {
     
 
     // Seed the random number generator
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    //std::random_device rd;
+    //std::mt19937 gen(rd());
     
     // Define the distribution for integers between 1 and 4
-    std::uniform_int_distribution<> distrib(1, 4);
+    //std::uniform_int_distribution<> distrib(1, 4);
 
     matrix.resize(MAP_HEIGHT); // Set the number of rows
     collision_matrix.resize(MAP_HEIGHT);
@@ -24,12 +24,18 @@ MAP_WIDTH(MW), MAP_HEIGHT(MH) {
         collision_matrix[i].resize(MAP_WIDTH);
     }
 
-    for (int i = 0; i < MAP_HEIGHT; ++i) {
-        for (int j = 0; j < MAP_WIDTH; ++j) {
-            // You can initialize elements here if needed
-            matrix[i][j] = distrib(gen);
-        }
-    }
+    std::vector<std::vector<int>> new_values = {
+        {6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8},
+        {4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7},
+        {4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7},
+        {4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7},
+        {4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7},
+        {4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7},
+        {4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7},
+        {4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7},
+        {3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9}};
+    matrix = new_values;
+
 
     rect.x = x;
     rect.y = y;
@@ -75,6 +81,7 @@ void Tilemap::update() {
 
 void Tilemap::render() {
     SDL_Texture* render_texture;
+    SDL_Rect* render_rect;
 
     for(int x = 0; x < MAP_WIDTH; ++x){
         for(int y = 0; y < MAP_HEIGHT; ++y){
@@ -83,19 +90,43 @@ void Tilemap::render() {
             switch(matrix[y][x]){
                 case 1:
                     render_texture = texture.floor1.texture;
+                    render_rect = &texture.floor1.floor_rects[2][2];
                     break;
                 case 2:
-                    render_texture = texture.floor2.texture;
+                    render_texture = texture.floor1.texture;
+                    render_rect = &texture.floor1.floor_rects[4][1];
                     break;
                 case 3:
-                    render_texture = texture.floor3.texture;
+                    render_texture = texture.floor1.texture;
+                    render_rect = &texture.floor1.floor_rects[4][0];
                     break;
                 case 4:
-                    render_texture = texture.floor4.texture;
+                    render_texture = texture.floor1.texture;
+                    render_rect = &texture.floor1.floor_rects[1][0];
+                    break;
+                case 5:
+                    render_texture = texture.floor1.texture;
+                    render_rect = &texture.floor1.floor_rects[0][2];
+                    break;
+                case 6:
+                    render_texture = texture.floor1.texture;
+                    render_rect = &texture.floor1.floor_rects[0][0];
+                    break;
+                case 7:
+                    render_texture = texture.floor1.texture;
+                    render_rect = &texture.floor1.floor_rects[1][5];
+                    break;
+                case 8:
+                    render_texture = texture.floor1.texture;
+                    render_rect = &texture.floor1.floor_rects[0][5];
+                    break;
+                case 9:
+                    render_texture = texture.floor1.texture;
+                    render_rect = &texture.floor1.floor_rects[4][5];
                     break;
             }
             //select the corresponding texture
-            SDL_RenderCopy(renderer, render_texture, NULL, &rect);
+            SDL_RenderCopy(renderer, render_texture, render_rect, &rect);
         }
     }
 }
