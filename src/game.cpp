@@ -67,10 +67,7 @@ bool Game::init() {
     }
 
     // Disable the cursor
-    //SDL_ShowCursor(SDL_DISABLE);
-
     tilemap = new Tilemap(renderer, textures->tilemap, 0, 0, 
-    //SCREEN_WIDTH, SCREEN_HEIGHT, 
     MAP_WIDTH, MAP_HEIGHT);
     tilemap->setcollisionmatrix();
 
@@ -134,7 +131,6 @@ void Game::render() {
     SDL_RenderClear(renderer);
 
     // TEST FOR HITBOXES
-    //SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
     // Render the tilemap object
     tilemap->render();

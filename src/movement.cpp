@@ -40,7 +40,6 @@ void Movement::move(SDL_Rect* actor) {
         moveY = moveY * 0.7072;
     }
 
-    //printf("moveX: %d, moveY: %d\n", moveX, moveY);
 
     while (moveX != 0 || moveY != 0) {
         int nextX = x + (moveX > 0 ? 1 : (moveX < 0 ? -1 : 0));
@@ -68,7 +67,6 @@ void Movement::move(SDL_Rect* actor) {
                     
                     if (SDL_HasIntersection(&playerRect, &tileRect)){
                         collisionX = true;
-                        //rect = tileRect;
                     }
 
                     playerRect.y = nextY;
@@ -76,7 +74,6 @@ void Movement::move(SDL_Rect* actor) {
 
                     if (SDL_HasIntersection(&playerRect, &tileRect)){
                         collisionY = true;
-                        //rect = tileRect;
                     }
                 }
             }
