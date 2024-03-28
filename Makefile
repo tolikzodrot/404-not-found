@@ -1,6 +1,6 @@
 CC = g++
-CFLAGS = -std=c++11 -Wall -Wextra -I/opt/homebrew/include
-LDFLAGS = -L/opt/homebrew/lib
+CFLAGS = -std=c++11 -Wall -Wextra -I/home/liuxia/下载/sdl2/SDL2-devel-2.30.1-VC/SDL2-2.30.1/include
+LDFLAGS = -L/home/liuxia/下载/sdl2/SDL2-devel-2.30.1-VC/SDL2-2.30.1/lib
 LDLIBS = -lSDL2 -lSDL2_image
 
 SRC_DIR = src
