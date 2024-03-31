@@ -13,6 +13,7 @@
 
 enum Gamestate{
     MENU,
+    LOADING,
     PLAYING
 };
 
@@ -45,9 +46,9 @@ private:
     const int  BUTTON_PLAY_W = 430;
     const int BUTTON_PLAY_H = 105;
     const int BUTTON_LOAD_X = 695;
-    const int BUTTON_LOAD_Y = 690;
-    const int  BUTTON_LOAD_W = 120 ;
-    const int  BUTTON_LOAD_H = 230;
+    const int BUTTON_LOAD_Y = 565;
+    const int  BUTTON_LOAD_W = 230 ;
+    const int  BUTTON_LOAD_H = 120;
     const int BUTTON_EXIT_X = 955;
     const int BUTTON_EXIT_Y = 565;
     const int BUTTON_EXIT_W = 230;

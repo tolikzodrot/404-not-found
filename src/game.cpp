@@ -118,6 +118,13 @@ void Game::run() {
                 update();
         // Render
                 render();
+            case LOADING:
+                 // Handle the input
+                input();
+        // Update the game logic
+                update();
+        // Render
+                render();
         }
          // Control the frame rate
         frame_time = SDL_GetTicks() - frame_start;
@@ -139,7 +146,7 @@ void Game::handleMenuInput(){
         else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
             if (isMouseInButton(&event, BUTTON_PLAY_X, BUTTON_PLAY_Y, BUTTON_PLAY_W, BUTTON_PLAY_H)) {
                 running=true;
-                Gamestate=PLAYING;
+                Gamestate=LOADING;
             }
             else if (isMouseInButton(&event, BUTTON_LOAD_X, BUTTON_LOAD_Y, BUTTON_LOAD_W, BUTTON_LOAD_H)) {
                 running=true;   
