@@ -2,11 +2,17 @@
 
 
 Player::Player(SDL_Renderer* renderer, struct Texture texture, const int x, const int y, const float FPS, const int SW, const int SH)
-: movement(x,y,0,SW,SH), renderer(renderer), FPS(FPS), SCREEN_WIDTH(SW), SCREEN_HEIGHT(SH),texture(texture) {
+: movement(0,SW,SH), renderer(renderer), FPS(FPS),texture(texture) {
     rect.x = x;
     rect.y = y;
     rect.w = WIDTH;
     rect.h = HEIGHT;
+    sword_rect.x = x;
+    sword_rect.y = y;
+    sword_rect.w = SWORD_WIDTH;
+    sword_rect.h = SWORD_HEIGHT;
+    start_time_degree = SDL_GetTicks();
+    start_time_swing = SDL_GetTicks();
 }
 //initialize the state of the player
 Player::~Player() {
@@ -20,6 +26,7 @@ void Player::handle_input(SDL_Event event) {
     if (event.type == SDL_MOUSEBUTTONDOWN) {
         if (event.button.button == SDL_BUTTON_LEFT) {
             attack = ATTACK; // Set the attack state when the left mouse button is pressed
+            swordRotation = initialSwordRotation;
         }
     }
 
@@ -76,10 +83,28 @@ void Player::handle_input(SDL_Event event) {
 
 // This function is responsible for updating the player's state.
 void Player::update() {
+
     
+
+    movement.move(&rect, 1, kickback.x, kickback.y);
+    kickback.x *= 0.9;
+    kickback.y *= 0.9;
+
     movement.setSpeed(speed / FPS);
     movement.setDirection(direction_X, direction_Y);
     movement.move(&rect);
+
+    center = {sword_rect.w / 2, sword_rect.h / 2};
+
+    if (direction_X) {
+        looking_direction = direction_X; // set the face direction, right or left
+    }
+
+    if (attack == ATTACK) {
+        sword_rect.x = rect.x;
+        sword_rect.y = rect.y;
+    }
+    
 
     // Set the player states
     if (attack == ATTACK) {
@@ -96,6 +121,21 @@ void Player::update() {
     // Set the looking direction
     if (direction_X) {
         looking_direction = direction_X;//set the face direction,right or left
+    }
+    if(attackState == HALT && SDL_GetTicks() - start_time_swing > 500){
+        start_time_swing = SDL_GetTicks();
+        attackState = SWING;
+    }
+    float angle_change_per_second = 400.0f; // Change this to the desired value
+    if(attackState == SWING){
+        swordRotation += angle_change_per_second * ((SDL_GetTicks() - start_time_degree) / 1000.0f);
+    }
+    start_time_degree = SDL_GetTicks();
+    float max_sword_angle = 390.0f; // Change this to the desired value
+    if (swordRotation >= max_sword_angle) {
+        // If it has, reset the sword rotation to its initial value
+        swordRotation = initialSwordRotation;
+        attackState = HALT;
     }
 
     // If enough time has passed between frames
@@ -125,6 +165,7 @@ void Player::render() {
 
     // Set the rendering texture according to the players state
     SDL_Texture* render_texture;
+    SDL_Texture* sword_render_texture;
     SDL_Rect* render_rect;
     if (state == IDLE) {
         render_texture = texture.idle.texture;
@@ -133,20 +174,84 @@ void Player::render() {
         render_texture = texture.run.texture;
         render_rect = &texture.run.frame_rects[texture.run.current_frame];
     }else{
-        render_texture = texture.attack.texture;
-        render_rect = &texture.attack.frame_rects[texture.attack.current_frame];
+        render_texture = texture.idle.texture;
+        render_rect = &texture.idle.frame_rects[texture.idle.current_frame];
+    }
+
+    if (state == ATTACK && attackState == SWING) {
+        sword_render_texture = texture.sword1.texture;
+        double sword_rotation_render = swordRotation;
+        if (flip == 1){
+            sword_rotation_render = 180 - swordRotation;
+        }
+        sword_rect_rotated = calculateRectWithAngle(sword_rect, (sword_rotation_render * M_PI) / 180, 80);
+        SDL_RenderCopyEx(renderer, sword_render_texture, NULL, &sword_rect_rotated, flip ? -swordRotation-30 : swordRotation+30, &center, flip);
     }
 
     // Render the current frame
     SDL_RenderCopyEx(renderer, render_texture, render_rect, &rect, 0, nullptr, flip);
-    collision_visual();
+
+    render_texture = texture.heart.texture;
+    SDL_Rect heart_rect = {0, 0, 40, 40};
+    for (int i = 0; i < HP; i++) {
+        heart_rect.x = i * 40;
+        SDL_RenderCopy(renderer, render_texture, NULL, &heart_rect);
+    }
+
     // TEST FOR HITBOXES
     //SDL_RenderDrawRect(renderer, &rect);
-    
     //SDL_RenderCopy(renderer, texture.texture, &texture.idle.frame_rects[texture.current_frame], &rect);
 }
-void Player::collision_visual(){
-    //SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    //SDL_RenderDrawRect(renderer, movement.getRect());
-    //SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+SDL_Rect Player::calculateRectWithAngle(const SDL_Rect &originalRect, double angle, double radius) {
+    // Calculate the new center coordinates
+    int centerX = originalRect.x + originalRect.w / 2;
+    int centerY = originalRect.y + originalRect.h / 2;
+
+    // Calculate the new center coordinates after applying the angle and radius
+    int newX = static_cast<int>(centerX + radius * std::cos(angle));
+    int newY = static_cast<int>(centerY + radius * std::sin(angle));
+
+    // Create a new SDL_Rect with the same dimensions as the original
+    SDL_Rect newRect;
+    newRect.x = newX - originalRect.w / 2; // Adjusting for the top-left corner
+    newRect.y = newY - originalRect.h / 2;
+    newRect.w = originalRect.w;
+    newRect.h = originalRect.h;
+
+    return newRect;
+}
+
+void Player::isHit(SDL_Rect enemy){
+
+    if(SDL_HasIntersection(&rect, &enemy) && SDL_GetTicks() - invinsibility > 500){
+        invinsibility = SDL_GetTicks();
+        HP--;
+        kickback.x = rect.x - enemy.x;
+        kickback.y = rect.y - enemy.y;
+
+        // Normalize the kickback direction
+        float length = sqrt(kickback.x * kickback.x + kickback.y * kickback.y);
+        kickback.x /= length;
+        kickback.y /= length;
+        // Multiply by the desired kickback magnitude
+        kickback.x *= 10;
+        kickback.y *= 10;
+        
+    }
+    if(HP == 0)
+        state = DEAD;
+}
+
+SDL_Rect Player::getSwordRect(){
+    if(attackState == SWING){
+        return sword_rect_rotated;
+    }else{
+        SDL_Rect empty = {0,0,0,0};
+        return empty;
+    }
+}
+
+SDL_Rect Player::getRect(){
+    return rect;
 }

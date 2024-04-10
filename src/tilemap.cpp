@@ -22,9 +22,9 @@ Tilemap::Tilemap(SDL_Renderer* renderer, struct Texture texture, int x, int y, i
         {6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8},
         {4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7},
         {4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7},
-        {4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7},
-        {4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7},
-        {4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7},
+        {4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5},
+        {4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+        {4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 10},
         {4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7},
         {4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7},
         {3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 9}};
@@ -63,14 +63,41 @@ void Tilemap::setcollisionmatrix(){
     for(int i = 0; i < MAP_WIDTH; ++i){
         collision_matrix[MAP_HEIGHT-1][i] = 1;
     }
-
-    // Set a specific element of the collision matrix to 1
-    collision_matrix[MAP_HEIGHT-4][MAP_WIDTH-4] = 1;
 }
 
 // Updates the tilemap
 void Tilemap::update() {
-    // TODO: Implement the update logic for the tilemap
+    if(room == 1){
+        matrix = room1;
+        if(enemies == 0){
+            collision_matrix[4][14] = 0;
+        }else{
+            collision_matrix[4][14] = 1;
+        }
+    }else if(room > 1 && room < 5){
+        matrix = room2;
+        if(enemies == 0){
+            collision_matrix[4][0] = 0;
+            collision_matrix[4][14] = 0;
+        }else{
+            collision_matrix[4][0] = 1;
+            collision_matrix[4][14] = 1;
+        }
+    }else if(room == 5){
+        matrix = room3;
+        if(enemies == 0){
+            collision_matrix[4][0] = 0;
+        }else{
+            collision_matrix[4][0] = 1;
+        }
+    }
+
+    for(int i = 0; i < MAP_HEIGHT; ++i){
+        for(int j = 0; j < MAP_WIDTH; ++j){
+            printf("%d ", collision_matrix[i][j]);
+        }
+        printf("\n");
+    }
 }
 
 // Renders the tilemap
@@ -120,8 +147,24 @@ void Tilemap::render() {
                     render_texture = texture.floor1.texture;
                     render_rect = &texture.floor1.floor_rects[4][5];
                     break;
+                case 10:
+                    render_texture = texture.floor1.texture;
+                    render_rect = &texture.floor1.floor_rects[5][0];
+                    break;
+                case 11:
+                    render_texture = texture.floor1.texture;
+                    render_rect = &texture.floor1.floor_rects[5][3];
+                    break;
             }
             SDL_RenderCopy(renderer, render_texture, render_rect, &rect);
         }
     }
+    SDL_Rect doorRect = {14*80, 4*80, 80, 80};
+    if(enemies != 0){
+        SDL_RenderCopy(renderer, render_texture, &texture.floor1.floor_rects[5][7], &doorRect);
+    }
+}
+
+void Tilemap::updateEnemies(int i){
+    enemies = i;
 }

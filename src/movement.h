@@ -7,11 +7,11 @@
 
 class Movement {
 public:
-    Movement(int initialX, int initialY, int initialSpeed, const int screenWidth, const int screenHeight);
+    Movement( int initialSpeed, const int screenWidth, const int screenHeight);
     void setSpeed(int newSpeed);
     void set_Collision_Matrix(const std::vector<std::vector<int>>& collisionMatrix);
     void setDirection(int newX, int newY);
-    void move(SDL_Rect* actor);
+    void move(SDL_Rect* actor, int setting = 0, int moveX = 0, int moveY = 0);
     SDL_Rect* getRect();
 
 private:
@@ -27,6 +27,9 @@ private:
 
     const int WIDTH = 80;
     const int HEIGHT = 80;
+
+    const int PLAYERWIDTH = 40;
+    const int PLAYERHEIGHT = 40;
 
     bool yisWithinScreenBounds(int nextY) const;
     bool xisWithinScreenBounds(int nextX) const;

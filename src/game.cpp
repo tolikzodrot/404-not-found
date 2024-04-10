@@ -10,6 +10,8 @@ Game::~Game() {
 
     // Delete the player
     delete player;
+    delete tilemap;
+
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
@@ -77,6 +79,9 @@ bool Game::init() {
     // Initialize the player object (with starting position)
     player = new Player(renderer, textures->player, 100, 100, FPS, SCREEN_WIDTH, SCREEN_HEIGHT);
     player->movement.set_Collision_Matrix(tilemap->collision_matrix);
+
+    skeleton = new Enemy(renderer, textures->skeleton, SCREEN_WIDTH - 200, SCREEN_HEIGHT - 200, FPS, SCREEN_WIDTH, SCREEN_HEIGHT);
+    skeleton->movement.set_Collision_Matrix(tilemap->collision_matrix);
     
     return true;
 }
@@ -109,7 +114,7 @@ void Game::input() {
     SDL_Event event;
     while (SDL_PollEvent(&event) != 0) {
     	// If quit is detected
-        if (event.type == SDL_QUIT || (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_ESCAPE || event.key.keysym.sym == SDLK_q))) {
+        if (event.type == SDL_QUIT || (event.type == SDL_KEYDOWN && (event.key.keysym.sym == SDLK_ESCAPE))) {
             // Quit the game
             running = false;
         }
@@ -122,11 +127,35 @@ void Game::input() {
 }
 
 void Game::update() {
-    // Update tilemap
+
     tilemap->update();
+    tilemap->updateEnemies(skeleton->check_state());
+    player->movement.set_Collision_Matrix(tilemap->collision_matrix);
+    skeleton->movement.set_Collision_Matrix(tilemap->collision_matrix);
+
+    if(skeleton->check_state() == 0){
+        skeleton->rect = {0,0,0,0};
+    }
+    // Update tilemap
+    skeleton->targetUpdate(player->getRect());
+
+    SDL_Rect door = {80*14,80*4,80, 80};
+    SDL_Rect player_rect = player->getRect();
+    
+    if(SDL_HasIntersection(&player_rect, &door) && skeleton->check_state() == 0){
+        tilemap->room = 2;
+        skeleton->setState();
+        player->rect = {81,80*4,80,80};
+        skeleton->rect = {SCREEN_WIDTH - 200, SCREEN_HEIGHT - 200, 80, 80};
+    }
+    
 
     // Update the player
+    player->isHit(skeleton->rect);
+    skeleton->isHit(player->getSwordRect());
+
     player->update();
+    skeleton->update();
 }
 
 void Game::render() {
@@ -140,6 +169,10 @@ void Game::render() {
     tilemap->render();
     // Render the player object
     player->render();
+
+    skeleton->render();
+
+
 
     SDL_RenderPresent(renderer);
 }

@@ -1,7 +1,7 @@
 #include "movement.h"
 
-Movement::Movement(int initialX, int initialY, int initialSpeed, int screenWidth, int screenHeight)
-    : x(initialX), y(initialY), speed(initialSpeed), dx(0), dy(0), screenWidth(screenWidth), screenHeight(screenHeight) {
+Movement::Movement( int initialSpeed, int screenWidth, int screenHeight)
+    : speed(initialSpeed), dx(0), dy(0), screenWidth(screenWidth), screenHeight(screenHeight) {
     // Constructor for the Movement class. Initializes the member variables.
 }
 
@@ -21,23 +21,28 @@ void Movement::setDirection(int newX, int newY) {
     // Sets the direction of movement.
 }
 
-void Movement::move(SDL_Rect* actor) {
-    int moveX = dx;
-    int moveY = dy;
+void Movement::move(SDL_Rect* actor, int setting, int moveX, int moveY){
+    x = actor->x + 20;
+    y = actor->y + 20;
 
-    if(dx > 0){
-        moveX = speed;
-    }else if(dx < 0)
-        moveX = -1 * speed;
+    if (setting == 0){
+        moveX = dx;
+        moveY = dy;
 
-    if(dy > 0){
-        moveY = speed;
-    }else if(dy < 0)
-        moveY = -1 * speed;
-    
-    if(dy != 0 && dx != 0){
-        moveX = moveX * 0.7072;
-        moveY = moveY * 0.7072;
+        if(dx > 0){
+            moveX = speed;
+        }else if(dx < 0)
+            moveX = -1 * speed;
+
+        if(dy > 0){
+            moveY = speed;
+        }else if(dy < 0)
+            moveY = -1 * speed;
+
+        if(dy != 0 && dx != 0){
+            moveX = moveX * 0.7072;
+            moveY = moveY * 0.7072;
+        }
     }
 
     //printf("moveX: %d, moveY: %d\n", moveX, moveY);
@@ -54,7 +59,7 @@ void Movement::move(SDL_Rect* actor) {
             nextX = x;
         }
         
-        SDL_Rect playerRect = {x, y, WIDTH, HEIGHT};
+        SDL_Rect playerRect = {x, y, PLAYERWIDTH, PLAYERHEIGHT};
 
         // Check collision with collision matrix
         bool collisionX = false;
@@ -92,18 +97,18 @@ void Movement::move(SDL_Rect* actor) {
         if (moveY > 0) moveY--;
         else if (moveY < 0) moveY++;
     }
-    actor->x = x;
-    actor->y = y;
+    actor->x = x-20;
+    actor->y = y-20;
     // Moves the actor based on the current direction and speed, taking into account collision detection.
 }
 
 bool Movement::yisWithinScreenBounds(int nextY) const {
-    return nextY >= 0 && nextY < screenHeight-HEIGHT;
+    return nextY >= 0 && nextY < screenHeight-PLAYERHEIGHT;
     // Checks if the next Y position is within the screen boundaries.
 }
 
 bool Movement::xisWithinScreenBounds(int nextX) const {
-    return nextX >= 0 && nextX < screenWidth-WIDTH;
+    return nextX >= 0 && nextX < screenWidth-PLAYERWIDTH;
     // Checks if the next X position is within the screen boundaries.
 }
 

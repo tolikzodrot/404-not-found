@@ -8,6 +8,7 @@
 #include "player.h"
 #include "tilemap.h"
 #include "movement.h"
+#include "enemy.h"
 
 class Game {
 public:
@@ -30,10 +31,13 @@ private:
     int MAP_WIDTH;
     int MAP_HEIGHT;//the width and height of the map
 
+    int room = 0;
+
     bool running = true;
 
     Player* player = nullptr;
     Tilemap* tilemap = nullptr;
+    Enemy* skeleton = nullptr;
 
     void input();//processing game input
     void update();//uptate the game

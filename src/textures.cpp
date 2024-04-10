@@ -26,7 +26,20 @@ SDL_Texture* Textures::load_texture(SDL_Renderer* renderer, const char* file_pat
 // Returns true if all textures are loaded successfully, false otherwise
 bool Textures::load() {
     
-	// Player idle texture
+	skeleton.idle.num_of_frames = SKELETON_IDLE_FRAMES;
+    skeleton.idle.current_frame = 1;
+    skeleton.render_speed = SKELETON_RENDER_SPEED;
+    skeleton.idle.texture = load_texture(renderer, SKELETON_IDLE_PATH);
+    if (!skeleton.idle.texture) { return false; }
+
+    skeleton.idle.frame_rects = new SDL_Rect[SKELETON_IDLE_FRAMES];
+    for (int i = 0; i < SKELETON_IDLE_FRAMES; i++) {
+        skeleton.idle.frame_rects[i].x = i * SKELETON_WIDTH;
+        skeleton.idle.frame_rects[i].y = 0;
+        skeleton.idle.frame_rects[i].w = SKELETON_WIDTH;
+        skeleton.idle.frame_rects[i].h = SKELETON_HEIGHT;
+    }
+
     tilemap.floor1.texture = load_texture(renderer, TILE_FLOOR_1);
     if (!tilemap.floor1.texture) { return false; }
 	
@@ -38,6 +51,7 @@ bool Textures::load() {
             tilemap.floor1.floor_rects[i][j].h = FLOOR_HEIGHT;
         }
     }
+
     player.attack.texture = load_texture(renderer, PLAYER_ATTACK_PATH);
     if (!player.attack.texture) { return false; }
     player.attack.frame_rects = new SDL_Rect[PLAYER_ATTACK_FRAMES];
@@ -78,7 +92,13 @@ bool Textures::load() {
     player.run.current_frame = 1;
 
     player.frame_start = SDL_GetTicks();//get the current system time
-    player.render_speed = PLAYER_RENDER_SPEED; 
+    player.render_speed = PLAYER_RENDER_SPEED;
+
+    player.sword1.texture = load_texture(renderer, SWORD1_PATH);
+    if (!player.sword1.texture) { return false; }
+
+    player.heart.texture = load_texture(renderer, HEART);
+    if (!player.heart.texture) { return false; }
 
 	return true;
 }
@@ -91,8 +111,9 @@ bool Textures::deload() {
 	SDL_DestroyTexture(player.idle.texture);
     SDL_DestroyTexture(player.run.texture);
     SDL_DestroyTexture(player.attack.texture);
-    
-	delete player.idle.frame_rects;
+    SDL_DestroyTexture(skeleton.idle.texture);
+    SDL_DestroyTexture(player.sword1.texture);
+
     //destroy all the objects,release memory
 	return true;
 }
