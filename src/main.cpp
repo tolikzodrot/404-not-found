@@ -1,14 +1,12 @@
-#include "game.h"
+#include <stdio.h>  
+#include "game.h" 
 
-int main() {
+int main() {  
     Game game;
-    if (!game.init()) {
+    if(!game.init()){
         printf("Failed to initialize the game!\n");
         return 1;
     }
-
     game.run();
-
     return 0;
 }
-//run the game

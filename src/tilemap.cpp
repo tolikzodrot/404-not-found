@@ -92,12 +92,12 @@ void Tilemap::update() {
         }
     }
 
-    for(int i = 0; i < MAP_HEIGHT; ++i){
+    /*for(int i = 0; i < MAP_HEIGHT; ++i){
         for(int j = 0; j < MAP_WIDTH; ++j){
             printf("%d ", collision_matrix[i][j]);
         }
         printf("\n");
-    }
+    }*/
 }
 
 // Renders the tilemap

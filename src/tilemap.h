@@ -14,7 +14,6 @@
 class Tilemap {
 public:
     Tilemap(SDL_Renderer* renderer, struct Texture texture, const int x, const int y, 
-    //const int SW, const int SH, 
     int MW, int MH);
     ~Tilemap();
     //build a function to initialize tilemap
@@ -66,9 +65,6 @@ private:
     // Create an empty 2D vector
     std::vector<std::vector<int>> matrix;
     //a two-dimensional vector used to store tile data for the map
-    
-    //const int SCREEN_WIDTH;
-    //const int SCREEN_HEIGHT;
 
 
     const int WIDTH = 80;
