@@ -103,6 +103,8 @@ void Player::update() {
     if (attack == ATTACK) {
         sword_rect.x = rect.x;
         sword_rect.y = rect.y;
+    }else{
+
     }
     
 
@@ -122,7 +124,7 @@ void Player::update() {
     if (direction_X) {
         looking_direction = direction_X;//set the face direction,right or left
     }
-    if(attackState == HALT && SDL_GetTicks() - start_time_swing > 500){
+    if(attack == ATTACK && attackState == HALT && SDL_GetTicks() - start_time_swing > 500){
         start_time_swing = SDL_GetTicks();
         attackState = SWING;
     }
@@ -244,7 +246,7 @@ void Player::isHit(SDL_Rect enemy){
 }
 
 SDL_Rect Player::getSwordRect(){
-    if(attackState == SWING){
+    if(state == ATTACK && attackState == SWING){
         return sword_rect_rotated;
     }else{
         SDL_Rect empty = {0,0,0,0};

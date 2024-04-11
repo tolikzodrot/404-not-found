@@ -65,6 +65,8 @@ private:
     Player* player = nullptr;
     Tilemap* tilemap = nullptr;
     Enemy* skeleton = nullptr;
+    Enemy* boss2 = nullptr;
+    Enemy* boss3 = nullptr;
 
     void input();//processing game input
     void update();//uptate the game

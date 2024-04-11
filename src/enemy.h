@@ -17,6 +17,7 @@ public:
     //to clean up enemy objects
     void update();//update the enemy's state
     void render();//render the enemy onto the screen
+    
     void isHit(SDL_Rect sword);//check if the enemy is hit
     int check_state();//check if enemy is dead
     void targetUpdate(SDL_Rect rect);

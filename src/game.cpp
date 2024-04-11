@@ -97,10 +97,12 @@ bool Game::init() {
 
     // Initialize the player object (with starting position)
     player = new Player(renderer, textures->player, 100, 100, FPS, SCREEN_WIDTH, SCREEN_HEIGHT);
-    player->movement.set_Collision_Matrix(tilemap->collision_matrix);
 
     skeleton = new Enemy(renderer, textures->skeleton, SCREEN_WIDTH - 200, SCREEN_HEIGHT - 200, FPS, SCREEN_WIDTH, SCREEN_HEIGHT);
-    skeleton->movement.set_Collision_Matrix(tilemap->collision_matrix);
+
+    boss2 = new Enemy(renderer, textures->boss2, SCREEN_WIDTH - 200, SCREEN_HEIGHT - 200, FPS, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    boss3 = new Enemy(renderer, textures->boss3, SCREEN_WIDTH - 200, SCREEN_HEIGHT - 200, FPS, SCREEN_WIDTH, SCREEN_HEIGHT);
     
     return true;
 }
@@ -194,11 +196,11 @@ void Game::update() {
     // Update tilemap
     skeleton->targetUpdate(player->getRect());
 
-    SDL_Rect door = {80*14,80*4,80, 80};
+    SDL_Rect right_door = {80*14,80*4,80, 80};
     SDL_Rect player_rect = player->getRect();
     
-    if(SDL_HasIntersection(&player_rect, &door) && skeleton->check_state() == 0){
-        tilemap->room = 2;
+    if(SDL_HasIntersection(&player_rect, &right_door) && skeleton->check_state() == 0){
+        tilemap->room += 1;
         skeleton->setState();
         player->rect = {81,80*4,80,80};
         skeleton->rect = {SCREEN_WIDTH - 200, SCREEN_HEIGHT - 200, 80, 80};

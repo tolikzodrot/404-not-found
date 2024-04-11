@@ -44,6 +44,8 @@ public:
     struct Texture player;//texture resource of the player
     struct Texture tilemap;//texure resourse of the tilemap
     struct Texture skeleton;//texture resource of the skeleton enemy
+    struct Texture boss2;
+    struct Texture boss3;
 
 private:
     SDL_Renderer* renderer;
@@ -56,6 +58,9 @@ private:
     const char* SWORD1_PATH = "assets/Character/hero/sword1.png";
     
     const char* SKELETON_IDLE_PATH = "assets/Character/Character_animation/monsters_idle/skeleton1/v2/skeleton1_idle_spritesheet.png";
+    const char* BOSS2_IDLE_PATH = "assets/Character/Character_animation/monsters_idle/boss2_idle.png";
+    const char* BOSS3_IDLE_PATH = "assets/Character/Character_animation/monsters_idle/boss3_idle.png";
+
     
     const char* TILE_FLOOR_1 = "assets/tiles/Tileset/Dungeon_Tileset.png";
 
@@ -68,6 +73,8 @@ private:
     const int SKELETON_RENDER_SPEED = 1;
     const int SKELETON_IDLE_FRAMES = 4;
 
+    const int BOSS_IDLE_FRAMES = 6;
+
     const float PLAYER_RENDER_SPEED = 1;
 
     const int SKELETON_WIDTH = 16;
@@ -75,6 +82,12 @@ private:
 
     const int PLAYER_WIDTH = 16;
     const int PLAYER_HEIGHT = 16;
+
+    const int BOSS2_WIDTH = 24;
+    const int BOSS2_HEIGHT = 24;
+
+    const int BOSS3_WIDTH = 36;
+    const int BOSS3_HEIGHT = 36;
 
     const int FLOOR_WIDTH = 16;
     const int FLOOR_HEIGHT = 16;

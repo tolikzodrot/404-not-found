@@ -26,6 +26,8 @@ SDL_Texture* Textures::load_texture(SDL_Renderer* renderer, const char* file_pat
 // Returns true if all textures are loaded successfully, false otherwise
 bool Textures::load() {
     
+    
+
 	skeleton.idle.num_of_frames = SKELETON_IDLE_FRAMES;
     skeleton.idle.current_frame = 1;
     skeleton.render_speed = SKELETON_RENDER_SPEED;
