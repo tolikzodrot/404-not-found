@@ -19,6 +19,7 @@ Player::~Player() {
 }
 
 
+
 // This function is responsible for handling player input.
 // It takes an SDL_Event as a parameter and updates the player's state accordingly.
 void Player::handle_input(SDL_Event event) {
